@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Handlebars.c : C port of the handlebars.js lexer, parser, and compiler.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Handlebars.c</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/jbboehr/handlebars.c">View on GitHub</a>
+
+          <h1 id="project_title">Handlebars.c</h1>
+          <h2 id="project_tagline">C port of the handlebars.js lexer, parser, and compiler.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/jbboehr/handlebars.c/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/jbboehr/handlebars.c/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="handlebarsc" class="anchor" href="#handlebarsc" aria-hidden="true"><span class="octicon octicon-link"></span></a>handlebars.c</h1>
+
+<p><a href="https://travis-ci.org/jbboehr/handlebars.c"><img src="https://travis-ci.org/jbboehr/handlebars.c.svg?branch=master" alt="Build Status"></a></p>
+
+<p>C implementation of the <a href="https://github.com/wycats/handlebars.js/">handlebars.js</a>
+lexer, parser, and compiler. Use with <a href="https://github.com/jbboehr/php-handlebars">php-handlebars</a> and <a href="https://github.com/jbboehr/handlebars.php">handlebars.php</a>.</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<h3>
+<a id="ppa" class="anchor" href="#ppa" aria-hidden="true"><span class="octicon octicon-link"></span></a>PPA</h3>
+
+<div class="highlight highlight-bash"><pre>sudo apt-add-repository ppa:jbboehr/handlebars
+sudo apt-get update
+sudo apt-get install handlebarsc libhandlebars-dev</pre></div>
+
+<h3>
+<a id="source" class="anchor" href="#source" aria-hidden="true"><span class="octicon octicon-link"></span></a>Source</h3>
+
+<h4>
+<a id="ubuntu" class="anchor" href="#ubuntu" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ubuntu</h4>
+
+<div class="highlight highlight-bash"><pre><span class="pl-c"># Install dependencies</span>
+sudo apt-get install autoconf automake bison flex gawk gcc git-core \
+                     libjson0-dev libtalloc-dev libtool m4 make pkg-config
+
+<span class="pl-c"># Install testing dependencies</span>
+sudo apt-get install check gdb lcov
+
+<span class="pl-c"># Install doc dependencies</span>
+sudo apt-get install doxygen
+
+<span class="pl-c"># Compile</span>
+git clone https://github.com/jbboehr/handlebars.c.git --recursive
+<span class="pl-s3">cd</span> handlebars-c
+./boostrap <span class="pl-k">&amp;&amp;</span> ./configure <span class="pl-k">&amp;&amp;</span> make <span class="pl-k">&amp;&amp;</span> sudo make install <span class="pl-k">&amp;&amp;</span> sudo ldconfig</pre></div>
+
+<h4>
+<a id="os-x" class="anchor" href="#os-x" aria-hidden="true"><span class="octicon octicon-link"></span></a>OS X</h4>
+
+<div class="highlight highlight-bash"><pre><span class="pl-c"># Install dependencies</span>
+brew install autoconf automake bison flex gcc json-c libtool pkg-config talloc
+
+<span class="pl-c"># Install testing dependencies</span>
+brew install check lcov
+
+<span class="pl-c"># Install doc dependencies</span>
+brew install doxygen
+
+<span class="pl-c"># Compile</span>
+git clone https://github.com/jbboehr/handlebars.c.git --recursive
+<span class="pl-s3">cd</span> handlebars-c
+./boostrap <span class="pl-k">&amp;&amp;</span> ./configure <span class="pl-k">&amp;&amp;</span> make install</pre></div>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>This project is licensed under the <a href="http://www.gnu.org/licenses/lgpl-3.0.txt">LGPLv3</a>.
+handlebars.js is licensed under the <a href="http://opensource.org/licenses/MIT">MIT license</a>.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Handlebars.c maintained by <a href="https://github.com/jbboehr">jbboehr</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-7764958-4");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
