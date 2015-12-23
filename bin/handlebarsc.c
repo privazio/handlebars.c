@@ -99,12 +99,6 @@ start:
         case 'K':
             compiler_flags |= handlebars_compiler_flag_known_helpers_only;
             break;
-        case 'S':
-            compiler_flags |= handlebars_compiler_flag_string_params;
-            break;
-        case 'T':
-            compiler_flags |= handlebars_compiler_flag_track_ids;
-            break;
         case 'U':
             compiler_flags |= handlebars_compiler_flag_no_escape;
             break;

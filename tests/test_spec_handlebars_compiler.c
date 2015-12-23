@@ -40,8 +40,6 @@ struct compiler_test {
     short opt_compat;
     short opt_data;
     short opt_known_helpers_only;
-    short opt_string_params;
-    short opt_track_ids;
     short opt_prevent_indent;
     short opt_explicit_partial_context;
     short opt_ignore_standalone;
@@ -50,8 +48,7 @@ struct compiler_test {
 
 static const char * suite_names[] = {
   "basic", "blocks", "builtins", "data", "helpers", "partials",
-  "regressions", "string-params", "subexpressions", "track-ids",
-  "whitespace-control", NULL
+  "regressions", "subexpressions", "whitespace-control", NULL
 };
 
 static TALLOC_CTX * rootctx = NULL;
@@ -393,24 +390,6 @@ static int loadSpecTestCompileOptions(struct compiler_test * test, json_object *
         test->opt_known_helpers_only = json_object_get_boolean(cur);
         if( test->opt_known_helpers_only ) {
             test->flags |= handlebars_compiler_flag_known_helpers_only;
-        }
-    }
-    
-    // Get string params
-    cur = json_object_object_get(object, "stringParams");
-    if( cur && json_object_get_type(cur) == json_type_boolean ) {
-        test->opt_string_params = json_object_get_boolean(cur);
-        if( test->opt_string_params ) {
-            test->flags |= handlebars_compiler_flag_string_params;
-        }
-    }
-    
-    // Get track ids
-    cur = json_object_object_get(object, "trackIds");
-    if( cur && json_object_get_type(cur) == json_type_boolean ) {
-        test->opt_track_ids = json_object_get_boolean(cur);
-        if( test->opt_track_ids ) {
-            test->flags |= handlebars_compiler_flag_track_ids;
         }
     }
     

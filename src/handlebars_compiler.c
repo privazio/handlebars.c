@@ -112,8 +112,6 @@ void handlebars_compiler_set_flags(struct handlebars_compiler * compiler, int fl
     compiler->flags = compiler->flags | flags;
     
     // Update shortcuts
-    compiler->string_params = 1 && (compiler->flags & handlebars_compiler_flag_string_params);
-    compiler->track_ids = 1 && (compiler->flags & handlebars_compiler_flag_track_ids);
     compiler->use_depths = 1 && (compiler->flags & handlebars_compiler_flag_use_depths);
     compiler->no_escape = 1 && (compiler->flags & handlebars_compiler_flag_no_escape);
     compiler->known_helpers_only = 1 && (compiler->flags & handlebars_compiler_flag_known_helpers_only);
@@ -294,120 +292,7 @@ static inline void handlebars_compiler_push_param(
         return;
     }
     
-    if( compiler->string_params ) {
-        int depth = 0;
-        struct handlebars_opcode * opcode;
-        char * tmp;
-        
-        if( param->type == HANDLEBARS_AST_NODE_PATH ) {
-            depth = param->node.path.depth;
-        }
-        
-        if( depth ) {
-            handlebars_compiler_add_depth(compiler, depth);
-        }
-        __OPL(get_context, depth);
-        
-        strval = handlebars_ast_node_get_string_mode_value(param);
-        
-        // sigh
-        opcode = handlebars_opcode_ctor(compiler, handlebars_opcode_type_push_string_param);
-        __MEMCHECK(opcode);
-
-        if( param->type == HANDLEBARS_AST_NODE_BOOLEAN ) {
-            handlebars_operand_set_boolval(&opcode->op1, strcmp(strval, "true") == 0);
-        } else {
-            tmp = handlebars_talloc_strdup(compiler, strval);
-            // @todo should be /^(\.\.?\/)/
-            tmp = handlebars_ltrim(tmp, "./");
-            for( char * tmp2 = tmp; *tmp2; tmp2++ ) {
-                if( *tmp2 == '/' ) {
-                    *tmp2 = '.';
-                }
-            }
-            handlebars_operand_set_stringval(opcode, &opcode->op1, tmp);
-        }
-        handlebars_operand_set_stringval(opcode, &opcode->op2, handlebars_ast_node_readable_type(param->type));
-        __PUSH(opcode);
-        /*
-        __OPS2(push_string_param, 
-                handlebars_ast_node_get_string_mode_value(param), 
-                handlebars_ast_node_readable_type(param->type));
-        */
-        
-        if( param->type == HANDLEBARS_AST_NODE_SEXPR ) {
-            handlebars_compiler_accept/*_sexpr*/(compiler, param);
-        }
-    } else {
-        if( compiler->track_ids ) {
-            const char * part;
-            struct handlebars_opcode * opcode;
-            int block_param_depth = -1;
-            int block_param_num = -1;
-            char tmp[32];
-            const char * block_param_arr[3];
-            const char ** parts_arr;
-            char * block_param_parts;
-            
-            opcode = handlebars_opcode_ctor(compiler, handlebars_opcode_type_push_id);
-            __MEMCHECK(opcode);
-            
-            if( param->type == HANDLEBARS_AST_NODE_PATH ) {
-                part = handlebars_ast_node_get_id_part(param);
-                if( part && !handlebars_ast_helper_scoped_id(param) && !param->node.path.depth ) {
-                    handlebars_compiler_block_param_index(compiler, part, &block_param_depth, &block_param_num);
-                }
-            }
-            
-            if( block_param_num >= 0 ) {
-                snprintf(tmp, 15, "%d", block_param_depth);
-                snprintf(tmp + 16, 15, "%d", block_param_num);
-                block_param_arr[0] = &tmp[0];
-                block_param_arr[1] = &tmp[16];
-                block_param_arr[2] = NULL;
-                
-                handlebars_operand_set_stringval(opcode, &opcode->op1, "BlockParam");
-                handlebars_operand_set_arrayval(opcode, &opcode->op2, block_param_arr);
-                parts_arr = handlebars_ast_node_get_id_parts(opcode, param);
-                __MEMCHECK(parts_arr);
-                if( *parts_arr ) {
-                    block_param_parts = handlebars_implode(".", parts_arr + 1);
-                    __MEMCHECK(block_param_parts);
-                    handlebars_operand_set_stringval(opcode, &opcode->op3, block_param_parts);
-                    handlebars_talloc_free(block_param_parts);
-                } else {
-                    handlebars_operand_set_stringval(opcode, &opcode->op3, "");
-                }
-                handlebars_talloc_free(parts_arr);
-                __PUSH(opcode);
-            } else {
-                strval = handlebars_ast_node_get_string_mode_value(param);
-                if( strval == strstr(strval, "this") ) {
-                	strval += 4 + (*(strval + 4) == '.' || *(strval + 4) == '$' ? 1 : 0 );
-                }
-                if( *strval == '.' && *(strval + 1) == 0 ) {
-                    strval = "";
-                } else if( *strval == '.' && *(strval + 1) == '/' ) {
-                    strval += 2;
-                }
-                handlebars_operand_set_stringval(opcode, &opcode->op1, handlebars_ast_node_readable_type(param->type));
-                // @todo need to remove leading .
-                if( param->type == HANDLEBARS_AST_NODE_BOOLEAN ) {
-                    handlebars_operand_set_boolval(&opcode->op2, strcmp(strval, "true") == 0);
-                } else if( param->type == HANDLEBARS_AST_NODE_NUMBER ) {
-                    long lval;
-                    sscanf(strval, "%10ld", &lval);
-                    handlebars_operand_set_longval(&opcode->op2, lval);
-                } else if( param->type == HANDLEBARS_AST_NODE_STRING ) {
-                    handlebars_operand_set_stringval(opcode, &opcode->op2, strval ? strval : "");
-                } else {
-                    handlebars_operand_set_stringval(opcode, &opcode->op2, strval);
-                }
-                __PUSH(opcode);
-            }
-        }
-        handlebars_compiler_accept(compiler, param);
-    }
+    handlebars_compiler_accept(compiler, param);
 }
 
 static inline void handlebars_compiler_push_params(

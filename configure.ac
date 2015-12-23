@@ -1,17 +1,17 @@
 
 # Define the package version numbers
 m4_define([HANDLEBARS_MAJOR], 0)
-m4_define([HANDLEBARS_MINOR], 4)
-m4_define([HANDLEBARS_PATCH], 4)
+m4_define([HANDLEBARS_MINOR], 5)
+m4_define([HANDLEBARS_PATCH], 0)
 
 # Define the libtool version numbers; check the Autobook, Section 11.4.
 # m4_define([HANDLEBARS_RELEASE], 0)
-m4_define([HANDLEBARS_CURRENT], 3)
-m4_define([HANDLEBARS_REVISION], 2)
+m4_define([HANDLEBARS_CURRENT], 4)
+m4_define([HANDLEBARS_REVISION], 0)
 m4_define([HANDLEBARS_AGE], 0)
 
 # Define the version of the handlebars spec
-m4_define([HANDLEBARS_SPEC_VERSION], [4.0.4])
+m4_define([HANDLEBARS_SPEC_VERSION], [5.0.0-dev])
 
 # Initialize autoconf & automake.
 AC_PREREQ(2.61)

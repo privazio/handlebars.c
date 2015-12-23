@@ -26,6 +26,8 @@ extern const char * handlebars_builtins[];
 
 /**
  * @brief Flags to control compiler behaviour
+ * @details string_params (1 << 1) and track_ids (1 << 2) were
+ *          removed in handlebars.js v5
  */
 enum handlebars_compiler_flag {
     /**
@@ -39,16 +41,6 @@ enum handlebars_compiler_flag {
      * @brief Track depths
      */
     handlebars_compiler_flag_use_depths = (1 << 0),
-
-    /**
-     * @brief Stringify parameters
-     */
-    handlebars_compiler_flag_string_params = (1 << 1),
-
-    /**
-     * @brief Track IDs
-     */
-    handlebars_compiler_flag_track_ids = (1 << 2),
 
     /**
      * @brief Disable all escaping

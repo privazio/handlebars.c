@@ -90,15 +90,15 @@ START_TEST(test_compiler_set_flags)
     compiler = handlebars_compiler_ctor(ctx);
     
     // Make sure it changes option flags
-    handlebars_compiler_set_flags(compiler, handlebars_compiler_flag_string_params);
-    ck_assert_int_eq(handlebars_compiler_flag_string_params, compiler->flags);
-    ck_assert_int_eq(1, compiler->string_params);
-    ck_assert_int_eq(0, compiler->track_ids);
+    handlebars_compiler_set_flags(compiler, handlebars_compiler_flag_no_escape);
+    ck_assert_int_eq(handlebars_compiler_flag_no_escape, compiler->flags);
+    ck_assert_int_eq(1, compiler->no_escape);
+    ck_assert_int_eq(0, compiler->prevent_indent);
     
-    handlebars_compiler_set_flags(compiler, handlebars_compiler_flag_track_ids);
-    ck_assert_int_eq(handlebars_compiler_flag_track_ids, compiler->flags);
-    ck_assert_int_eq(0, compiler->string_params);
-    ck_assert_int_eq(1, compiler->track_ids);
+    handlebars_compiler_set_flags(compiler, handlebars_compiler_flag_prevent_indent);
+    ck_assert_int_eq(handlebars_compiler_flag_prevent_indent, compiler->flags);
+    ck_assert_int_eq(0, compiler->no_escape);
+    ck_assert_int_eq(1, compiler->prevent_indent);
     
     handlebars_compiler_dtor(compiler);
 }
