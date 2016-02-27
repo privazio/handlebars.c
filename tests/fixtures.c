@@ -1542,6 +1542,7 @@ static void convert_value_to_fixture(struct handlebars_value * value)
         FIXTURE_CASE_ALIAS(2836204191, 739773491);
         FIXTURE_CASE_ALIAS(3153085867, 2919388099);
         FIXTURE_CASE_ALIAS(3584035731, 3697740723);
+        FIXTURE_CASE_ALIAS(2443446763, 126946175)
 
         default:
             fprintf(stderr, "Unimplemented test fixture [%u]:\n%s\n", hash, handlebars_value_get_strval(jsvalue));

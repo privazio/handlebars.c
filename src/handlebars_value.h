@@ -249,7 +249,7 @@ static inline bool handlebars_value_is_empty(struct handlebars_value * value) {
         case HANDLEBARS_VALUE_TYPE_ARRAY:
             return 0 == handlebars_stack_length(value->v.stack);
         case HANDLEBARS_VALUE_TYPE_MAP:
-            return NULL == value->v.map->first;
+            return value->v.map->i ==    0;
         case HANDLEBARS_VALUE_TYPE_USER:
             return handlebars_value_count(value) == 0; // Doesn't include -1
         default:

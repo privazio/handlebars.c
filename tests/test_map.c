@@ -48,14 +48,14 @@ START_TEST(test_map)
     fprintf(stderr, "ENTRIES: %ld, TABLE SIZE: %ld, COLLISIONS: %ld\n", map->i, map->table_size, map->collisions);
 
     pos = 0;
-    handlebars_map_foreach(map, entry, tmp_entry) {
-        ck_assert_uint_eq(pos++, handlebars_value_get_intval(entry->value));
+    for( i = 0; i < map->i; i++ )  {
+        ck_assert_uint_eq(pos++, handlebars_value_get_intval(map->v[i].value));
     }
 
-    while( map->first ) {
-        struct handlebars_map_entry * entry = handlebars_map_find(map, map->first->key);
+    while( map->i > 0 ) {
+        struct handlebars_map_entry * entry = handlebars_map_find(map, map->v[0].key);
         ck_assert_ptr_ne(NULL, entry);
-        handlebars_map_remove(map, map->first->key);
+        handlebars_map_remove(map, map->v[0].key);
         ck_assert_uint_eq(--pos, map->i);
     }
 

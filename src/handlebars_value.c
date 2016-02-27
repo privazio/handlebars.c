@@ -195,10 +195,10 @@ bool handlebars_value_iterator_init(struct handlebars_value_iterator * it, struc
             return true;
 
         case HANDLEBARS_VALUE_TYPE_MAP:
-            entry = value->v.map->first;
-            if( entry ) {
+            if( value->v.map->i > 0 ) {
+                entry = &value->v.map->v[0];
+                it->index = 0;
                 it->value = value;
-                it->usr = (void *) entry;
                 it->key = entry->key;
                 it->current = entry->value;
                 it->length = value->v.map->i;
@@ -258,6 +258,7 @@ struct handlebars_value_iterator * handlebars_value_iterator_ctor(struct handleb
 bool handlebars_value_iterator_next(struct handlebars_value_iterator * it)
 {
     struct handlebars_value * value;
+    struct handlebars_map * map;
     struct handlebars_map_entry * entry;
     bool ret = false;
 
@@ -279,10 +280,11 @@ bool handlebars_value_iterator_next(struct handlebars_value_iterator * it)
             }
             break;
         case HANDLEBARS_VALUE_TYPE_MAP:
-            entry = talloc_get_type(it->usr, struct handlebars_map_entry);
-            if( entry && entry->next ) {
+            map = value->v.map;
+            if( it->index < map->i - 1 ) {
+                it->index++;
+                entry = &map->v[it->index];
                 ret = true;
-                it->usr = (void *) (entry = entry->next);
                 it->key = entry->key;
                 it->current = entry->value;
                 handlebars_value_addref(it->current);

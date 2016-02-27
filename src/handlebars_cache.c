@@ -71,9 +71,16 @@ int handlebars_cache_gc(struct handlebars_cache * cache)
     time_t now;
     time(&now);
 
-    handlebars_map_foreach(cache->map, item, tmp) {
-        arr[i++] = item;
+    handlebars_map_sort(cache->map, cache_entry_compare);
+
+    // @todo
+
+    /*
+    for( i = 0; i < cache->map->i; i++ ) {
+        arr[i++] = &cache->map->v[i];
     }
+
+
     assert(i == cache->map->i);
 
     qsort(arr, cache->map->i, sizeof(struct handlebars_map_entry *), &cache_entry_compare);
@@ -98,6 +105,7 @@ int handlebars_cache_gc(struct handlebars_cache * cache)
     }
 
     return removed;
+    */
 }
 
 struct handlebars_cache_entry * handlebars_cache_find(struct handlebars_cache * cache, struct handlebars_string * tmpl)
