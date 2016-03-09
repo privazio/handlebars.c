@@ -27,9 +27,6 @@ struct handlebars_map {
     size_t collisions;
 };
 
-//#define handlebars_map_foreach(list, el, tmp) \
-//    for( (el) = (list->first); (el) && (tmp = (el)->next, 1); (el) = tmp)
-
 struct handlebars_map * handlebars_map_ctor(struct handlebars_context * ctx) HBSARN;
 void handlebars_map_dtor(struct handlebars_map * map);
 
@@ -44,6 +41,7 @@ bool handlebars_map_update(struct handlebars_map * map, struct handlebars_string
 
 bool handlebars_map_remove(struct handlebars_map * map, struct handlebars_string * key);
 bool handlebars_map_str_remove(struct handlebars_map * map, const char * key, size_t len);
+bool handlebars_map_index_remove(struct handlebars_map * map, size_t index);
 
 bool handlebars_map_sort(struct handlebars_map * map, int (*compar)(const void*,const void*));
 

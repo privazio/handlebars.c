@@ -33,8 +33,8 @@ static inline bool should_gc_entry(struct handlebars_cache * cache, struct handl
 static int cache_entry_compare(const void * ptr1, const void * ptr2)
 {
     double delta;
-    struct handlebars_map_entry * map_entry1 = talloc_get_type(*(struct handlebars_map_entry **) ptr1, struct handlebars_map_entry);
-    struct handlebars_map_entry * map_entry2 = talloc_get_type(*(struct handlebars_map_entry **) ptr2, struct handlebars_map_entry);
+    struct handlebars_map_entry * map_entry1 = ptr1; //talloc_get_type((struct handlebars_map_entry *) ptr1, struct handlebars_map_entry);
+    struct handlebars_map_entry * map_entry2 = ptr2; //talloc_get_type((struct handlebars_map_entry *) ptr2, struct handlebars_map_entry);
     assert(map_entry1 != NULL);
     assert(map_entry2 != NULL);
 
@@ -64,48 +64,33 @@ void handlebars_cache_dtor(struct handlebars_cache * cache)
 int handlebars_cache_gc(struct handlebars_cache * cache)
 {
     int removed = 0;
-    struct handlebars_map_entry * arr[cache->map->i];
-    struct handlebars_map_entry * item;
-    struct handlebars_map_entry * tmp;
     size_t i = 0;
     time_t now;
     time(&now);
 
     handlebars_map_sort(cache->map, cache_entry_compare);
 
-    // @todo
-
-    /*
     for( i = 0; i < cache->map->i; i++ ) {
-        arr[i++] = &cache->map->v[i];
-    }
-
-
-    assert(i == cache->map->i);
-
-    qsort(arr, cache->map->i, sizeof(struct handlebars_map_entry *), &cache_entry_compare);
-
-    for( i = 0; i < cache->map->i; i++ ) {
-        struct handlebars_map_entry * map_entry = arr[i];
+        struct handlebars_map_entry * map_entry = &cache->map->v[i];
         struct handlebars_cache_entry * entry = talloc_get_type(map_entry->value->v.ptr, struct handlebars_cache_entry);
         if( should_gc_entry(cache, entry, now) ) {
             size_t oldsize = entry->size;
-            // Remove
-            handlebars_map_remove(cache->map, map_entry->key);
+            if( handlebars_map_index_remove(cache->map, i) ) {
+                i--;
+                cache->current_entries--;
+                cache->current_size -= oldsize;
+                removed++;
 #ifdef HANDLEBARS_NO_REFCOUNT
-            // Delref should handle it if refcounting enabled
-            handlebars_value_dtor(map_entry->value);
+                // Delref should handle it if refcounting enabled
+                handlebars_value_dtor(map_entry->value);
 #endif
-            cache->current_entries--;
-            cache->current_size -= oldsize;
-            removed++;
+            }
         } else {
             break;
         }
     }
 
     return removed;
-    */
 }
 
 struct handlebars_cache_entry * handlebars_cache_find(struct handlebars_cache * cache, struct handlebars_string * tmpl)

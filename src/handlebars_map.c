@@ -35,13 +35,11 @@ struct handlebars_map * handlebars_map_ctor(struct handlebars_context * ctx)
 void handlebars_map_dtor(struct handlebars_map * map)
 {
 #ifndef HANDLEBARS_NO_REFCOUNT
-    struct handlebars_map_entry * entry;
-    struct handlebars_map_entry * tmp;
+    size_t i;
 
-    // @todo
-    //handlebars_map_foreach(map, entry, tmp) {
-    //    handlebars_value_delref(entry->value);
-    //}
+    for( i = 0; i < map->i; i++ ) {
+        handlebars_value_delref(map->v[i].value);
+    }
 #endif
 
     handlebars_talloc_free(map);
@@ -84,6 +82,10 @@ static inline void _rehash(struct handlebars_map * map)
     // Reset collisions
     map->collisions = 0;
 
+    // Reset table
+    memset(map->table, 0, sizeof(map->table[0]) * map->table_size);
+
+    // Reimport table
     for( i = 0; i < map->i; i++ ) {
         entry = &map->v[i];
         entry->child = NULL;
@@ -201,6 +203,16 @@ bool handlebars_map_str_add(struct handlebars_map * map, const char * key, size_
 bool handlebars_map_remove(struct handlebars_map * map, struct handlebars_string * key)
 {
     struct handlebars_map_entry * entry = _entry_find(map, key->val, key->len, key->hash);
+    if( entry ) {
+        _entry_remove(map, entry);
+        return 1;
+    }
+    return 0;
+}
+
+bool handlebars_map_index_remove(struct handlebars_map * map, size_t index)
+{
+    struct handlebars_map_entry * entry = &map->v[index];
     if( entry ) {
         _entry_remove(map, entry);
         return 1;

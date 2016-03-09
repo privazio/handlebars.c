@@ -228,6 +228,7 @@ START_TEST(test_map_iterator)
         ck_assert_int_eq(it.current->v.lval, i);
     }
 
+
 #ifndef HANDLEBARS_NO_REFCOUNT
     ck_assert_int_eq(0, handlebars_value_delref(value));
     ck_assert_int_eq(init_blocks, talloc_total_blocks(context));
