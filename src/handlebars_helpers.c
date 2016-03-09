@@ -192,8 +192,6 @@ struct handlebars_value * handlebars_builtin_block_helper_missing(HANDLEBARS_HEL
     context = argv[0];
     is_zero = handlebars_value_get_type(context) == HANDLEBARS_VALUE_TYPE_INTEGER && handlebars_value_get_intval(context) == 0;
 
-    fprintf(stderr, "ARASDASDASD %s\n", handlebars_value_dump(context, 0));
-
     if( handlebars_value_get_boolval(context) ) {
         result = handlebars_vm_execute_program(options->vm, options->program, options->scope);
     } else if( handlebars_value_is_empty(context) && !is_zero ) {

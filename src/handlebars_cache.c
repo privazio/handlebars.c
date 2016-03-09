@@ -80,10 +80,6 @@ int handlebars_cache_gc(struct handlebars_cache * cache)
                 cache->current_entries--;
                 cache->current_size -= oldsize;
                 removed++;
-#ifdef HANDLEBARS_NO_REFCOUNT
-                // Delref should handle it if refcounting enabled
-                handlebars_value_dtor(map_entry->value);
-#endif
             }
         } else {
             break;
