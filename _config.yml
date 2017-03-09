@@ -1,0 +1,8 @@
+title: Handlebars.c
+description: C port of the handlebars.js lexer, parser, and compiler.
+google_analytics: UA-7764958-4
+show_downloads: true
+theme: jekyll-theme-slate
+
+gems:
+  - jekyll-mentions
